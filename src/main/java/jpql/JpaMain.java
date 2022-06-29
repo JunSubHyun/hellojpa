@@ -25,7 +25,7 @@ public class JpaMain {
             //결과가 하나일때
             Member result = query.getSingleResult();
             System.out.println("result = " + result);
-
+//test
 
             tx.commit();
         }catch (Exception e){
