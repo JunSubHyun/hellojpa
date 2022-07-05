@@ -109,17 +109,36 @@ public class JpaMain {
 //            String query = "select m from Member m";
 
             //fetch조인 사용
-            String query = "select m from Member m join fetch m.team";
-            List<Member> result = em.createQuery(query, Member.class).getResultList();
+//            String query = "select m from Member m join fetch m.team";
+//            List<Member> result = em.createQuery(query, Member.class).getResultList();
+//
+//            for (Member member : result) {
+//                System.out.println("member = " + member.getUsername() + " , "+ member.getTeam().getName());
+//                //회원1, 팀A(SQL)
+//                //회원2, 팀A(1차캐시)
+//                //회원3, 팀B(SQL)
+//
+//                //이런식이면 회원 100명 -> N + 1
+//            }
 
-            for (Member member : result) {
-                System.out.println("member = " + member.getUsername() + " , "+ member.getTeam().getName());
-                //회원1, 팀A(SQL)
-                //회원2, 팀A(1차캐시)
-                //회원3, 팀B(SQL)
+            //엔티티 직접 사용
+//            String query = "select m from Member m where m = :member";
+//            Member findMember = em.createQuery(query, Member.class).setParameter("member", member1).getSingleResult();
+//
+//            System.out.println("findMember = " + findMember);
 
-                //이런식이면 회원 100명 -> N + 1
-            }
+            //Named 쿼리 사용
+//            List<Member> resultList = em.createNamedQuery("Member.findByUsername").setParameter("username", "회원1").getResultList();
+//
+//            for (Member member : resultList) {
+//                System.out.println("member = " + member);
+//            }
+
+            //벌크 연산
+            //flush 자동 호출
+            int resultCount = em.createQuery("update Member m set m.age = 20").executeUpdate();
+
+            System.out.println("resultCount = " + resultCount);
 
             tx.commit();
         }catch (Exception e){
